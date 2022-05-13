@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import './Login.css';
 import './SignUp';
 
@@ -14,6 +14,44 @@ class SignUp extends Component {
     onSign = ()=>{
         this.props.sign();
     }
+
+    usernameRef = createRef();
+    emailRef = createRef();
+    passwordRef = createRef();
+    confirmPasswordRef = createRef();
+
+
+    
+    componentDidMount(e){
+        this.usernameRef.current.focus();
+        // if(e.key === "Enter"){
+        //     this.emailRef.current.focus();
+        // }
+    }
+
+    handleValue = (e)=>{
+        this.setState({
+            [e.target.name]: e.target.value,
+        },
+        ()=> {
+            if(this.state.username.length === 20){
+                this.emailRef.current.focus();
+            }
+            if(this.state.email.length === 30){
+                this.passwordRef.current.focus();
+            }
+            if(this.state.password.length === 20){
+                this.confirmPasswordRef.current.focus();
+            }
+        }
+        )
+    }
+
+    // handleMir = (e)=>{
+    //     if(e.key === "Enter"){
+    //         this.emailRef.current.focus();
+    //     }
+    // }
     
     
     render() { 
@@ -31,6 +69,7 @@ class SignUp extends Component {
                             name='username'
                             id='username'
                             ref={this.usernameRef}
+                            onChange={this.handleValue}
                             placeholder='Username'
                             />
                           <i class="fa-solid fa-user"></i>
@@ -41,9 +80,10 @@ class SignUp extends Component {
                             type="email" 
                             name='email'
                             id='email'
+                            ref={this.emailRef}
                             placeholder='Email'
                             value={this.handleEmail}
-                            onChange={this.handleEmail}
+                            onChange={this.handleValue}
                            />
                            <i class="fa-solid fa-square-envelope"></i>
                            
@@ -53,6 +93,8 @@ class SignUp extends Component {
                             type="password" 
                             name='password'
                             id='password'
+                            ref={this.passwordRef}
+                            onChange={this.handleValue}
                             placeholder='Password'
                            />
                           <i class="fa-solid fa-key"></i>
@@ -62,6 +104,8 @@ class SignUp extends Component {
                             type="password" 
                             name='confirm-password'
                             id='confirm-password'
+                            ref={this.confirmPasswordRef}
+                            onChange={this.handleValue}
                             placeholder='Confirm password'
                            />
                           <i class="fa-solid fa-key"></i>
